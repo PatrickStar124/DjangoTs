@@ -4,21 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5f8eedc-be33-41d8-999a-0beb717c92f7" name="更改" comment="第一次提交">
-      <change afterPath="$PROJECT_DIR$/DjangoTs/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/serializers.py" afterDir="false" />
+    <list default="true" id="f5f8eedc-be33-41d8-999a-0beb717c92f7" name="更改" comment="后端首页修改第1次">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/goods/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/goods/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/goods/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/goods/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myproject/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoTs/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myproject/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoTs/asgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoTs/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myproject/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/myproject/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoTs/wsgi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +95,7 @@
       <option name="presentableId" value="Default" />
       <updated>1761556102595</updated>
       <workItem from="1761556103636" duration="2078000" />
-      <workItem from="1761645031543" duration="5655000" />
+      <workItem from="1761645031543" duration="6654000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <option name="closed" value="true" />
@@ -115,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761558454108</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="后端首页修改第1次">
+      <option name="closed" value="true" />
+      <created>1761651433846</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1761651433846</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,6 +132,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="第一次提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="第一次提交" />
+    <MESSAGE value="后端首页修改第1次" />
+    <option name="LAST_COMMIT_MESSAGE" value="后端首页修改第1次" />
   </component>
 </project>
