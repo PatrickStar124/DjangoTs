@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5f8eedc-be33-41d8-999a-0beb717c92f7" name="更改" comment="后端首页修改第3次">
+    <list default="true" id="f5f8eedc-be33-41d8-999a-0beb717c92f7" name="更改" comment="后端首页修改第4次">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/goods/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/goods/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,6 +109,8 @@
       <workItem from="1761696839863" duration="598000" />
       <workItem from="1761705769131" duration="109000" />
       <workItem from="1761716451198" duration="2315000" />
+      <workItem from="1761800916777" duration="779000" />
+      <workItem from="1761804051593" duration="6009000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <option name="closed" value="true" />
@@ -135,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761652315681</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="后端首页修改第4次">
+      <option name="closed" value="true" />
+      <created>1761800974555</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1761800974556</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,6 +165,7 @@
     <MESSAGE value="第一次提交" />
     <MESSAGE value="后端首页修改第1次" />
     <MESSAGE value="后端首页修改第2次" />
-    <option name="LAST_COMMIT_MESSAGE" value="后端首页修改第2次" />
+    <MESSAGE value="后端首页修改第4次" />
+    <option name="LAST_COMMIT_MESSAGE" value="后端首页修改第4次" />
   </component>
 </project>
