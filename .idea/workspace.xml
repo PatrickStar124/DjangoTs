@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5f8eedc-be33-41d8-999a-0beb717c92f7" name="更改" comment="后端首页修改第4次">
+    <list default="true" id="f5f8eedc-be33-41d8-999a-0beb717c92f7" name="更改" comment="后端首页修改第5次">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoTs/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoTs/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoTs/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoTs/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/goods/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/goods/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +116,11 @@
       <workItem from="1761705769131" duration="109000" />
       <workItem from="1761716451198" duration="2315000" />
       <workItem from="1761800916777" duration="779000" />
-      <workItem from="1761804051593" duration="6009000" />
+      <workItem from="1761804051593" duration="6533000" />
+      <workItem from="1761817535491" duration="670000" />
+      <workItem from="1761821679170" duration="4553000" />
+      <workItem from="1761878128418" duration="229000" />
+      <workItem from="1761889888723" duration="7086000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <option name="closed" value="true" />
@@ -144,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761800974556</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="后端首页修改第5次">
+      <option name="closed" value="true" />
+      <created>1761816576604</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1761816576604</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,6 +184,7 @@
     <MESSAGE value="后端首页修改第1次" />
     <MESSAGE value="后端首页修改第2次" />
     <MESSAGE value="后端首页修改第4次" />
-    <option name="LAST_COMMIT_MESSAGE" value="后端首页修改第4次" />
+    <MESSAGE value="后端首页修改第5次" />
+    <option name="LAST_COMMIT_MESSAGE" value="后端首页修改第5次" />
   </component>
 </project>
