@@ -305,11 +305,10 @@ def api_root(request):
 # 10. 用户商品相关接口
 # ----------------------------------------------------------------------
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])  # 新增登录权限校验
 def user_goods_list(request, action):
     """
     获取用户相关的商品信息
-    action: 'my-goods' - 我的出售商品
+    action: 'my-goods' - 我的出售商品, 'my-purchases' - 我的购买记录
     """
     try:
         # 检查用户是否登录
@@ -319,7 +318,7 @@ def user_goods_list(request, action):
                 'message': '请先登录'
             }, status=status.HTTP_401_UNAUTHORIZED)
 
-        # 获取我的出售商品（使用现有的seller字段）
+        # 获取我的出售商品
         if action == 'my-goods':
             try:
                 # 获取当前用户发布的商品
@@ -338,6 +337,25 @@ def user_goods_list(request, action):
                     'error': str(e)
                 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+        # 获取我的购买记录
+        elif action == 'my-purchases':
+            try:
+                # 获取当前用户购买的商品
+                purchased_goods = Goods.objects.filter(buyer=request.user).order_by('-sold_at')
+                serializer = GoodsSerializer(purchased_goods, many=True, context={'request': request})
+
+                return Response({
+                    'success': True,
+                    'purchases': serializer.data,
+                    'count': len(serializer.data)
+                })
+            except Exception as e:
+                return Response({
+                    'success': False,
+                    'message': '获取购买记录失败',
+                    'error': str(e)
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         else:
             return Response({
                 'success': False,
@@ -348,4 +366,62 @@ def user_goods_list(request, action):
         return Response({
             'success': False,
             'message': f'操作失败: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# ----------------------------------------------------------------------
+# 11. 购买商品接口
+# ----------------------------------------------------------------------
+@api_view(['POST'])
+def purchase_good(request, id):
+    """购买商品接口"""
+    try:
+        goods = Goods.objects.get(id=id)
+    except Goods.DoesNotExist:
+        return Response({
+            'success': False,
+            'message': '商品不存在'
+        }, status=status.HTTP_404_NOT_FOUND)
+
+    try:
+        # 检查用户是否登录
+        if not request.user.is_authenticated:
+            return Response({
+                'success': False,
+                'message': '请先登录'
+            }, status=status.HTTP_401_UNAUTHORIZED)
+
+        # 检查商品是否已售出
+        if goods.is_sold:
+            return Response({
+                'success': False,
+                'message': '该商品已售出'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # 检查是否是自己的商品
+        if goods.seller == request.user:
+            return Response({
+                'success': False,
+                'message': '不能购买自己的商品'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # 更新商品状态
+        goods.buyer = request.user
+        goods.is_sold = True
+        goods.sold_at = timezone.now()
+        goods.save()
+
+        # 序列化返回数据
+        serializer = GoodsSerializer(goods, context={'request': request})
+
+        return Response({
+            'success': True,
+            'message': '购买成功！',
+            'goods': serializer.data
+        })
+
+    except Exception as e:
+        return Response({
+            'success': False,
+            'message': f'购买失败: {str(e)}'
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

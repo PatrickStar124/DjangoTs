@@ -15,4 +15,6 @@ urlpatterns = [
 
     # 🔥 新增：用户商品相关路由
     path('user-goods/<str:action>/', views.user_goods_list, name='user-goods'),
+    # 🔥 新增：购买商品路由
+    path('goods/<int:id>/purchase/', views.purchase_good, name='purchase-good'),
 ]
