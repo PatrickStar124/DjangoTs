@@ -2,7 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
-from django.utils import timezone  # 🔥 新增导入
+from django.utils import timezone
+
 
 class Goods(models.Model):
     # 基础信息
@@ -69,7 +70,7 @@ class Goods(models.Model):
         verbose_name="卖家"
     )
 
-    # 🔥 新增购买相关字段
+    # 购买相关字段
     buyer = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -99,3 +100,73 @@ class Goods(models.Model):
         verbose_name = "商品"
         verbose_name_plural = "商品"
         ordering = ['-created_at']
+
+
+# 🔥 新增：评论模型
+class Comment(models.Model):
+    """商品评论模型"""
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(max_length=500, verbose_name='评论内容')
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)], verbose_name='评分')
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = '商品评论'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return f"{self.user.username} - {self.goods.name}"
+
+
+# 🔥 新增：点赞模型
+class Like(models.Model):
+    """商品点赞模型"""
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('goods', 'user')  # 防止重复点赞
+        verbose_name = '商品点赞'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return f"{self.user.username} 喜欢 {self.goods.name}"
+
+
+# 🔥 新增：收藏模型
+class Favorite(models.Model):
+    """商品收藏模型"""
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='favorites')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('goods', 'user')  # 防止重复收藏
+        verbose_name = '商品收藏'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return f"{self.user.username} 收藏 {self.goods.name}"
+
+
+# 🔥 新增：留言模型
+class Message(models.Model):
+    """用户与商家留言模型"""
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='messages')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
+    content = models.TextField(max_length=500, verbose_name='留言内容')
+    is_read = models.BooleanField(default=False, verbose_name='已读')
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = '用户留言'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return f"{self.sender.username} -> {self.receiver.username}"
