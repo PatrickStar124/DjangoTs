@@ -1,3 +1,4 @@
+# views.py
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -6,6 +7,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate
 from django.middleware.csrf import get_token
+from django.utils import timezone
 from goods.models import Goods
 from api.serializers import GoodsSerializer
 
@@ -76,50 +78,52 @@ def good_detail(request, id):
             'message': '商品不存在'
         }, status=status.HTTP_404_NOT_FOUND)
 
-    # 非商品卖家拦截
-    if goods.seller != request.user:
-        return Response({
-            'success': False,
-            'message': '无权操作此商品'
-        }, status=status.HTTP_403_FORBIDDEN)
-
     # 处理不同请求方法
     if request.method == 'GET':
+        # 🔥 修改：所有登录用户都可以查看商品详情
         serializer = GoodsSerializer(goods, context={'request': request})
         return Response({
             'success': True,
             'goods': serializer.data
         })
 
-    elif request.method == 'PUT':
-        serializer = GoodsSerializer(
-            goods,
-            data=request.data,
-            partial=True,  # 允许部分更新
-            context={'request': request}
-        )
-        if serializer.is_valid():
-            serializer.save()
+    elif request.method in ['PUT', 'DELETE']:
+        # 🔥 只有商品卖家可以修改或删除
+        if goods.seller != request.user:
+            return Response({
+                'success': False,
+                'message': '无权操作此商品'
+            }, status=status.HTTP_403_FORBIDDEN)
+
+        if request.method == 'PUT':
+            serializer = GoodsSerializer(
+                goods,
+                data=request.data,
+                partial=True,  # 允许部分更新
+                context={'request': request}
+            )
+            if serializer.is_valid():
+                serializer.save()
+                return Response({
+                    'success': True,
+                    'message': '商品更新成功',
+                    'goods': serializer.data
+                })
+            return Response({
+                'success': False,
+                'message': '数据验证失败',
+                'errors': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        elif request.method == 'DELETE':
+            # 删除商品时同步删除图片文件
+            if goods.image:
+                goods.image.delete(save=False)
+            goods.delete()
             return Response({
                 'success': True,
-                'message': '商品更新成功',
-                'goods': serializer.data
-            })
-        return Response({
-            'success': False,
-            'message': '数据验证失败',
-            'errors': serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        # 删除商品时同步删除图片文件
-        if goods.image:
-            goods.image.delete(save=False)
-        goods.delete()
-        return Response({
-            'success': True,
-            'message': '商品删除成功'
-        }, status=status.HTTP_200_OK)
+                'message': '商品删除成功'
+            }, status=status.HTTP_200_OK)
 
 
 # -------------------------- 2. 认证相关视图 --------------------------
@@ -305,19 +309,13 @@ def api_root(request):
 # 10. 用户商品相关接口
 # ----------------------------------------------------------------------
 @api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
 def user_goods_list(request, action):
     """
     获取用户相关的商品信息
     action: 'my-goods' - 我的出售商品, 'my-purchases' - 我的购买记录
     """
     try:
-        # 检查用户是否登录
-        if not request.user.is_authenticated:
-            return Response({
-                'success': False,
-                'message': '请先登录'
-            }, status=status.HTTP_401_UNAUTHORIZED)
-
         # 获取我的出售商品
         if action == 'my-goods':
             try:
@@ -373,6 +371,7 @@ def user_goods_list(request, action):
 # 11. 购买商品接口
 # ----------------------------------------------------------------------
 @api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
 def purchase_good(request, id):
     """购买商品接口"""
     try:
@@ -384,13 +383,6 @@ def purchase_good(request, id):
         }, status=status.HTTP_404_NOT_FOUND)
 
     try:
-        # 检查用户是否登录
-        if not request.user.is_authenticated:
-            return Response({
-                'success': False,
-                'message': '请先登录'
-            }, status=status.HTTP_401_UNAUTHORIZED)
-
         # 检查商品是否已售出
         if goods.is_sold:
             return Response({
@@ -424,4 +416,33 @@ def purchase_good(request, id):
         return Response({
             'success': False,
             'message': f'购买失败: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# ----------------------------------------------------------------------
+# 12. 收藏商品接口
+# ----------------------------------------------------------------------
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def favorite_good(request, id):
+    """收藏商品接口"""
+    try:
+        goods = Goods.objects.get(id=id)
+
+        # 这里可以添加收藏逻辑，比如创建收藏关系
+        # 暂时先返回成功消息
+        return Response({
+            'success': True,
+            'message': '收藏成功！'
+        })
+
+    except Goods.DoesNotExist:
+        return Response({
+            'success': False,
+            'message': '商品不存在'
+        }, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({
+            'success': False,
+            'message': f'收藏失败: {str(e)}'
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
